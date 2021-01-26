@@ -145,6 +145,7 @@
     "string_view": "c",
     "initializer_list": "c",
     "ranges": "c",
-    "utility": "c"
+    "utility": "c",
+    "sstream": "c"
   }
 }

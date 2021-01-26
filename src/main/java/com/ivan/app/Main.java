@@ -22,8 +22,9 @@ public class Main {
     char[] ccc = "cifrul world".toCharArray();
 
     // c.decrypt(ccc, 2);
-    c.encrypt(ccc, -28, "ABCDEFGHIJKLMNOPQRSTUVWX".toCharArray());
+    char[] encrypted = c.encrypt(ccc, -3, "ABCDEFGHIJKLMNOPQRSTUVWX".toCharArray());
     
+    char[] decrypted = c.decrypt(encrypted, -3, "ABCDEFGHIJKLMNOPQRSTUVWX".toCharArray());
     char cc = 'a';
 
     // c.decrypt(ccc, -28, "ABCDEFGHIJKLMNOPQRSTUVWX".toCharArray());

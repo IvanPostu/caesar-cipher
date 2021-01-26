@@ -8,10 +8,18 @@ public class CaesarCipherCImpl implements CaesarCipher {
     NativeLibUtils.resolveLibrary("libCaesarCipherCImpl_c.so");
   }
 
-  @Override
-  public native void encrypt(char[] plainText, int key, char[] alph);
+  private native char[] encryptNative(char[] plainText, int key, char[] alph);
+
+  private native char[] decryptNative(char[] encryptedText, int key, char[] alph);
 
   @Override
-  public native void decrypt(char[] encryptedText, int key, char[] alph);
+  public char[] encrypt(char[] plainText, int key, char[] alph) {
+    return encryptNative(plainText, key, alph);
+  }
+
+  @Override
+  public char[] decrypt(char[] encryptedText, int key, char[] alph) {
+    return decryptNative(encryptedText, key, alph);
+  }
   
 }

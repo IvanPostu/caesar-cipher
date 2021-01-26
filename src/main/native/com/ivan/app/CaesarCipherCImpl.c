@@ -13,19 +13,22 @@ struct str
 int charIndexInAlph(char c, char *alph)
 {
   int i = 0;
-  for (i;; i++)
+  for (i;; i += 2)
     if (c == *(alph + i))
       return i;
 }
 
-void encrypt(char *str, int strLength, int k, char *alph, unsigned int alphLen)
+struct str *encrypt(struct str *normalizedPlainStr, int k, char *alph, unsigned int alphLen)
 {
   int i, j;
   unsigned short charIndexinAlph;
+  struct str *res = (struct str *)malloc(sizeof(struct str));
+  res->size = normalizedPlainStr->size;
+  res->str = (char *)malloc(sizeof(char) * normalizedPlainStr->size);
 
-  for (i = 0; i < strLength * 2; i += 2)
+  for (i = 0; i < normalizedPlainStr->size; i += 2)
   {
-    charIndexinAlph = charIndexInAlph(*(str + i), alph); //*(str + i) - _alph[0];
+    charIndexinAlph = charIndexInAlph(*(normalizedPlainStr->str + i), alph);
     k %= alphLen;
 
     j = charIndexinAlph + k;
@@ -34,12 +37,39 @@ void encrypt(char *str, int strLength, int k, char *alph, unsigned int alphLen)
       j -= alphLen;
     }
 
-    *(str + i) = *(alph + j);
+    char c = *(alph + j);
+    *(res->str + i) = c;
+    *(res->str + i + 1) = 0;
   }
+
+  return res;
 }
 
-void decrypt(char *str, int len, int k)
+struct str *decrypt(struct str *encryptedStr, int k, char *alph, unsigned int alphLen)
 {
+  int i, j;
+  unsigned short charIndexinAlph;
+  struct str *res = (struct str *)malloc(sizeof(struct str));
+  res->size = encryptedStr->size;
+  res->str = (char *)malloc(sizeof(char) * encryptedStr->size);
+
+  for (i = 0; i < encryptedStr->size; i += 2)
+  {
+    charIndexinAlph = charIndexInAlph(*(encryptedStr->str + i), alph);
+    k %= alphLen;
+
+    j = charIndexinAlph - k;
+    if (j < 0)
+    {
+      j = alphLen - abs(j);
+    }
+
+    char c = *(alph + j);
+    *(res->str + i) = c;
+    *(res->str + i + 1) = 0;
+  }
+
+  return res;
 }
 
 /**
@@ -88,34 +118,58 @@ struct str *normalize(char *str, int size)
   return res;
 }
 
-JNIEXPORT void JNICALL Java_com_ivan_app_cipher_CaesarCipherCImpl_encrypt(JNIEnv *env, jobject obj, jcharArray str, jint k, jcharArray alph)
+JNIEXPORT jcharArray JNICALL Java_com_ivan_app_cipher_CaesarCipherCImpl_encryptNative(JNIEnv *env, jobject obj, jcharArray strPlain, jint k, jcharArray alph)
 {
-  int plainTextLength = (*env)->GetArrayLength(env, str) * 2;
-  char *plainText = (char *)(*env)->GetCharArrayElements(env, str, 0);
+  int plainTextLength = (*env)->GetArrayLength(env, strPlain) * 2;
+  char *plainText = (char *)(*env)->GetCharArrayElements(env, strPlain, 0);
 
   int alphabetTextLength = (*env)->GetArrayLength(env, alph) * 2;
   char *alphabetText = (char *)(*env)->GetCharArrayElements(env, alph, 0);
 
+  int key = abs((int)k * 2);
+
   struct str *normalizedPlainStr = normalize(plainText, plainTextLength);
-  // for (int i = 0; i < normalizedPlainStr->size; i++)
-  //   printf("%c", *(normalizedPlainStr->str + i));
-  // printf("\n\n%d ", normalizedPlainStr->size);
-  (*env)->ReleaseCharArrayElements(env, str, (jchar*)plainText, JNI_ABORT);
+  (*env)->ReleaseCharArrayElements(env, strPlain, (jchar *)plainText, JNI_ABORT);
+  struct str *encryptedStr = encrypt(normalizedPlainStr, key, alphabetText, alphabetTextLength);
+  (*env)->ReleaseCharArrayElements(env, alph, (jchar *)alphabetText, JNI_ABORT);
 
-  
+  jcharArray result = (*env)->NewCharArray(env, encryptedStr->size / 2);
+  (*env)->SetCharArrayRegion(env, result, 0, encryptedStr->size / 2, (jchar *)encryptedStr->str);
 
+  free(normalizedPlainStr->str);
+  free(normalizedPlainStr);
 
-  // (*env)->NewCharArray()
-  // (*env)->SetCharArrayRegion(env, str, 0, textLength, (jchar*)arr);
+  free(encryptedStr->str);
+  free(encryptedStr);
+
+  return result;
 }
 
-JNIEXPORT void JNICALL Java_com_ivan_app_cipher_CaesarCipherCImpl_decrypt(JNIEnv *env, jobject obj, jcharArray str, jint k, jcharArray alph)
+JNIEXPORT jcharArray JNICALL Java_com_ivan_app_cipher_CaesarCipherCImpl_decryptNative(JNIEnv *env, jobject obj, jcharArray encryptedStr, jint k, jcharArray alph)
 {
-  int textLength = (*env)->GetArrayLength(env, str);
-  char *arr = (char *)(*env)->GetCharArrayElements(env, str, 0);
+  int encryptedStrCharArrLength = (*env)->GetArrayLength(env, encryptedStr) * 2;
+  char *encryptedStrCharArr = (char *)(*env)->GetCharArrayElements(env, encryptedStr, 0);
 
-  // decrypt(arr, textLength, abs((int)k));
+  int alphabetTextLength = (*env)->GetArrayLength(env, alph) * 2;
+  char *alphabetText = (char *)(*env)->GetCharArrayElements(env, alph, 0);
 
-  (*env)->SetCharArrayRegion(env, str, 0, textLength, (jchar *)arr);
-  (*env)->ReleaseCharArrayElements(env, str, (jchar *)arr, 0);
+  int key = abs((int)k * 2);
+
+  struct str* encryptedStrStruct = (struct str*)malloc(sizeof(struct str));
+  encryptedStrStruct->size = encryptedStrCharArrLength;
+  encryptedStrStruct->str = encryptedStrCharArr;
+
+  struct str *decryptedStr = decrypt(encryptedStrStruct, key, alphabetText, alphabetTextLength);
+  (*env)->ReleaseCharArrayElements(env, alph, (jchar *)alphabetText, JNI_ABORT);
+  (*env)->ReleaseCharArrayElements(env, encryptedStr, (jchar *)encryptedStrCharArr, JNI_ABORT);
+
+  jcharArray result = (*env)->NewCharArray(env, decryptedStr->size / 2);
+  (*env)->SetCharArrayRegion(env, result, 0, decryptedStr->size / 2, (jchar *)decryptedStr->str);
+
+  free(encryptedStrStruct);
+
+  free(decryptedStr->str);
+  free(decryptedStr);
+
+  return result;
 }
