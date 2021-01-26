@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="warn">
+  <Properties>
+    <Property name="consolePattern">[%-5level] %d{HH:mm:ss.SSS} [%t] (%F:%L) - %m%n</Property>
+  </Properties>
+
+  <Appenders>
+    <Console name="console" target="SYSTEM_OUT">
+      <PatternLayout pattern="${consolePattern}" />
+    </Console>
+  </Appenders>
+  
+  <Loggers>
+
+    <Logger name="com.ivan.app" level="debug" additivity="true" />
+
+    <Root level="warn" additivity="false">
+      <appender-ref ref="console" />
+    </Root>
+  </Loggers>
+</Configuration>

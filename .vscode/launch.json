@@ -1,0 +1,19 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      
+      "type": "java",
+      "name": "Launch Main File",
+      "request": "launch",
+      "mainClass": "com.ivan.app.Main",
+      "classPaths": [
+        "${workspaceFolder}/bin/main/",
+        "${workspaceFolder}/build/libs/compile_dependencies/*"
+      ]
+    },
+  ]
+}

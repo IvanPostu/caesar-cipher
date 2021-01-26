@@ -1,0 +1,150 @@
+{
+  "python.autoComplete.extraPaths": [
+    "./web-application",
+    "${workspaceRoot}/.env/lib/python3.8"
+  ],
+  "python.envFile": "${workspaceRoot}/venv",
+  "python.pythonPath": "${workspaceRoot}/venv/bin/python3",
+  "python.linting.flake8Args": ["--ignore=E111,E713", "--max-line-length=100"],
+  "python.linting.pylintUseMinimalCheckers": true,
+  "[python]": {
+    "editor.tabSize": 4,
+    "editor.insertSpaces": true,
+    "editor.formatOnSave": true
+  },
+  "[html]": {
+    "editor.suggest.insertMode": "replace",
+    "editor.tabSize": 2
+  },
+  "[js]": {
+    "editor.suggest.insertMode": "replace",
+    "editor.tabSize": 2,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[jsx]": {
+    "editor.suggest.insertMode": "replace",
+    "editor.tabSize": 2,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[json]": {
+    "editor.suggest.insertMode": "replace",
+    "editor.tabSize": 2
+  },
+  "python.testing.pytestEnabled": true,
+  "python.testing.unittestEnabled": false,
+  "java.configuration.updateBuildConfiguration": "disabled",
+  "java.home": "/usr/lib/jvm/java-11-openjdk",
+  "java.configuration.runtimes": [
+    {
+      "default": true,
+      "name": "JavaSE-1.8",
+      "path": "/usr/lib/jvm/java-8-openjdk"
+    },
+    {
+      "name": "JavaSE-11",
+      "path": "/usr/lib/jvm/java-11-openjdk"
+    }
+  ],
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "files.exclude": {
+    "**/mysql_data/*/**": true,
+    "**/mongo-volume/*/**": true,
+    "**/.git/objects/**": true,
+    "**/.git/subtree-cache/**": true,
+    "**/node_modules/*/**": true,
+    "**/__pycache__": true,
+    "**/.mypy_cache": true,
+    "**/.pytest_cache": true
+  },
+  "files.watcherExclude": {
+    "**/mysql_data/*/**": true,
+    "**/mongo-volume/*/**": true,
+    "**/.git/objects/**": true,
+    "**/.git/subtree-cache/**": true,
+    "**/node_modules/*/**": true,
+    "**/build/*/**": true
+  },
+  "editor.rulers": [100],
+  "editor.wordWrap": "wordWrapColumn",
+  "editor.wrappingIndent": "same",
+  "editor.wordWrapColumn": 100,
+  "editor.minimap.scale": 2,
+  "editor.minimap.showSlider": "always",
+  "editor.minimap.enabled": true,
+  "editor.codeLens": true,
+  "editor.cursorBlinking": "smooth",
+  "editor.cursorStyle": "line",
+  "editor.fontSize": 13,
+  "editor.fontFamily": "'Fira Code Medium', 'Consolas', monospace, 'Droid Sans Fallback'",
+  "editor.fontLigatures": true,
+  "editor.formatOnSave": false,
+  "editor.formatOnPaste": false,
+  "editor.formatOnType": false,
+  "editor.letterSpacing": 0.1,
+  "editor.lineHeight": 16,
+  "editor.tabSize": 2,
+  "editor.detectIndentation": false,
+  "editor.insertSpaces": true,
+  "breadcrumbs.enabled": true,
+  "terminal.integrated.fontFamily": "Fira Code Medium",
+  "terminal.integrated.fontSize": 10,
+  "debug.console.fontSize": 10,
+  "debug.console.lineHeight": 12,
+  "debug.console.fontFamily": "Fira Code Medium",
+  "[Log]": {
+    "editor.fontFamily": "Fira Code Medium",
+    "editor.fontSize": 10,
+    "editor.lineHeight": 13
+  },
+  "search.showLineNumbers": true,
+  "telemetry.enableTelemetry": false,
+  "workbench.colorCustomizations": {
+    "editorWarning.foreground": "#ff9100",
+    "editorError.foreground": "#ff0000",
+    "editorError.border": "#b80000",
+
+    "statusBar.background": "#333333",
+    "statusBar.noFolderBackground": "#333333",
+    "statusBar.debuggingBackground": "#333333"
+  },
+  "zenMode.centerLayout": false,
+  "zenMode.hideLineNumbers": false,
+  "editor.tokenColorCustomizations": {
+    "textMateRules": [
+      {
+        "scope": "comment",
+        "settings": {
+          "foreground": "#416863"
+        }
+      },
+      {
+        "scope": "string.quoted.single",
+        "settings": {
+          "foreground": "#3fad8e"
+        }
+      },
+      {
+        "scope": "string.quoted.double",
+        "settings": {
+          "foreground": "#229977"
+        }
+      },
+      {
+        "scope": "string.quoted",
+        "settings": {
+          "foreground": "#5ab399"
+        }
+      }
+    ]
+  },
+  "files.associations": {
+    "array": "c",
+    "hash_map": "c",
+    "string_view": "c",
+    "initializer_list": "c",
+    "ranges": "c",
+    "utility": "c"
+  }
+}
