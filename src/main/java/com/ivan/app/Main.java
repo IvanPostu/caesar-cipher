@@ -3,10 +3,14 @@ package com.ivan.app;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
-import com.ivan.app.cipher.CaesarCipherCImpl;
+import javax.swing.SwingUtilities;
+
 import com.ivan.app.configuration.Log4jConfiguration;
+import com.ivan.app.configuration.SpringConfig;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public class Main {
   static {
@@ -17,19 +21,12 @@ public class Main {
 
   public static void main(String[] args) throws IOException, URISyntaxException {
 
-    CaesarCipherCImpl c = new CaesarCipherCImpl();
+    SwingUtilities.invokeLater(() -> {
+      logger.info("SwingUtilities invokeLater call." );
+      new AnnotationConfigApplicationContext(SpringConfig.class);
+    });
 
-    char[] ccc = "cifrul world".toCharArray();
 
-    // c.decrypt(ccc, 2);
-    char[] encrypted = c.encrypt(ccc, -3, "ABCDEFGHIJKLMNOPQRSTUVWX".toCharArray());
-    
-    char[] decrypted = c.decrypt(encrypted, -3, "ABCDEFGHIJKLMNOPQRSTUVWX".toCharArray());
-    char cc = 'a';
-
-    // c.decrypt(ccc, -28, "ABCDEFGHIJKLMNOPQRSTUVWX".toCharArray());
-
-    // cc = 'a';
   }
 
 }
