@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
 
 import javax.annotation.PostConstruct;
 import javax.swing.JButton;
@@ -15,7 +16,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 
+import com.ivan.app.cipher.AlphabetMissmatchException;
 import com.ivan.app.cipher.AlphabetState;
+import com.ivan.app.cipher.CaesarCipher;
+import com.ivan.app.cipher.KeyState;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -40,11 +44,22 @@ public class InputPanel extends JPanel {
   @Autowired
   private AlphabetState alphabetState;
 
+  @Autowired
+  private OutputPanel outputPanel;
+
+  @Autowired
+  private CaesarCipher caesarCipher;
+
+  @Autowired
+  private KeyState keyState;
+
   @Value("${panel.input.height}")
   private int height;
 
   @Value("${panel.input.width}")
   private int width;
+
+  private JTextArea inputTextArea;
 
   public InputPanel() {
     super();
@@ -62,6 +77,51 @@ public class InputPanel extends JPanel {
     }
   }
 
+  private void showAlert(String msg){
+    logger.info("showAlert with message {}", msg);
+    JOptionPane.showMessageDialog(
+      mainWindow, msg, "Warning", JOptionPane.WARNING_MESSAGE);
+  }
+
+  private void encryptButtonClick(ActionEvent event){
+    String plainText = inputTextArea.getText();
+
+    if(plainText == null || plainText.isEmpty()){
+      logger.warn("Plain text is empty or null !!!");
+      return;
+    }
+
+    if(keyState.getK() % alphabetState.getAlphabet().length == 0){
+      showAlert("Key is not secured :(");
+    }
+
+    try{
+      char[] encrypted = caesarCipher
+        .encrypt(plainText.toCharArray(), keyState.getK(), alphabetState.getAlphabet());
+      String encryptedText = new String(encrypted);
+      outputPanel.setOutputText(encryptedText);
+    }catch(AlphabetMissmatchException ex){
+      showAlert("Plain text contain unknown characters.");
+      logger.warn(ex);
+    }
+  
+  }
+
+  private void decryptButtonClick(ActionEvent event){
+    String encryptedText = inputTextArea.getText();
+
+    if(encryptedText == null || encryptedText.isEmpty()){
+      logger.warn("Encrypted text is empty or null !!!");
+      return;
+    }
+
+    char[] decryptedCharacters = caesarCipher
+      .decrypt(encryptedText.toCharArray(), keyState.getK(), alphabetState.getAlphabet());
+  
+    String decryptedtext = new String(decryptedCharacters);
+    outputPanel.setOutputText(decryptedtext);
+  }
+
   @PostConstruct
   private void init() {
     setBackground(new Color(222, 222, 222));
@@ -71,7 +131,7 @@ public class InputPanel extends JPanel {
     JLabel inputtextLabel = new JLabel("Input text");
     inputtextLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
-    JTextArea inputTextArea = new JTextArea(20, 20);
+    inputTextArea = new JTextArea(20, 20);
     inputTextArea.setText("");
     inputTextArea.setLineWrap(true);
     inputTextArea.setWrapStyleWord(true);
@@ -89,9 +149,11 @@ public class InputPanel extends JPanel {
     add(inputTextPanel);
 
     JButton decryptButton = new JButton("Decrypt");
+    decryptButton.addActionListener(this::decryptButtonClick);
     add(decryptButton);
 
     JButton encryptButton = new JButton("Encrypt");
+    encryptButton.addActionListener(this::encryptButtonClick);
     add(encryptButton);
 
     JButton changeAlphabet = new JButton("Change Alphabet");

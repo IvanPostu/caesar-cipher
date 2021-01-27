@@ -41,6 +41,11 @@ public class OutputPanel extends JPanel {
   private MainWindow mainWindow;
 
   private JButton keyStateButton; 
+  private JTextArea outputTextArea;
+
+  public void setOutputText(String text){
+    outputTextArea.setText(text);
+  }
 
   private void changeKey(ActionEvent e){
     String result = (String) JOptionPane.showInputDialog(mainWindow, "Set alphabet", "Dialog box",
@@ -59,20 +64,18 @@ public class OutputPanel extends JPanel {
       }
 
     } else {
-      JOptionPane.showMessageDialog(
-        mainWindow, "Number is invalid :(", "Warning", JOptionPane.WARNING_MESSAGE);
-      logger.info("New key is empty or null, use old value {}", keyState.getK());
+      logger.info("Use old K value {}", keyState.getK());
     }
   }
 
   @PostConstruct
   private void init() {
-    setBackground(new Color(232, 232, 232));
+    setBackground(new Color(222, 222, 222));
 
     JLabel outputTextLabel = new JLabel("Output text");
     outputTextLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
-    JTextArea outputTextArea = new JTextArea(20, 20);
+    outputTextArea = new JTextArea(20, 20);
     outputTextArea.setText("");
     outputTextArea.setLineWrap(true);
     outputTextArea.setWrapStyleWord(true);

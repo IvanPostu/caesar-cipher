@@ -1,6 +1,8 @@
 package com.ivan.app.configuration;
 
 import com.ivan.app.cipher.AlphabetState;
+import com.ivan.app.cipher.CaesarCipher;
+import com.ivan.app.cipher.CaesarCipherCImpl;
 import com.ivan.app.cipher.KeyState;
 import com.ivan.app.ui.InputPanel;
 import com.ivan.app.ui.MainWindow;
@@ -39,6 +41,11 @@ public class SpringConfig {
   @Bean
   public KeyState getKeyState() {
     return new KeyState();
+  }
+
+  @Bean
+  public CaesarCipher getCaesarCipher(){
+    return new CaesarCipherCImpl();
   }
 
 }
