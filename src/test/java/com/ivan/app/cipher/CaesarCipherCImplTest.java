@@ -51,7 +51,7 @@ public class CaesarCipherCImplTest {
   public  void encryptAlphabetMissmatchExceptionCaseTest(){
     CaesarCipherCImpl cipher = new CaesarCipherCImpl();
     
-    Assertions.assertThrows(AlphabetMissmatch.class, () -> {
+    Assertions.assertThrows(AlphabetMissmatchException.class, () -> {
       cipher.encrypt("abc def0".toCharArray(), 2, "ABCDEFGH".toCharArray());
     });
 

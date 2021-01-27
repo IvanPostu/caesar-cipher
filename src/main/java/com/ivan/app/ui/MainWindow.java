@@ -1,7 +1,6 @@
 package com.ivan.app.ui;
 
-import java.awt.Dimension;
-import java.awt.FlowLayout;
+import java.awt.*;
 
 import javax.annotation.PostConstruct;
 import javax.swing.JFrame;
@@ -28,7 +27,9 @@ public class MainWindow extends JFrame {
   private InputPanel inputPanel;
 
   @Autowired
-  private EncryptPanel encryptPanel;
+  private OutputPanel outputPanel;
+
+
 
   @PostConstruct
   public void onInit() {
@@ -37,10 +38,10 @@ public class MainWindow extends JFrame {
     setSize(new Dimension(windowWidth, windowHeight));
     setResizable(false);
     setLocationRelativeTo(null);
-    setLayout(new FlowLayout(FlowLayout.LEFT));
+    this.setLayout(new BorderLayout());
 
-    add(inputPanel);
-    add(encryptPanel);
+    add(inputPanel, BorderLayout.LINE_START);
+    add(outputPanel, BorderLayout.LINE_END);
 
     setVisible(true);
   }

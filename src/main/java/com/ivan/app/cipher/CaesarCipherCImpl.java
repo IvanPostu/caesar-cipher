@@ -40,7 +40,7 @@ public class CaesarCipherCImpl implements CaesarCipher {
     }
 
     if(charArrayContainsAlphMissmatch(plainText, alph)){
-      throw new AlphabetMissmatch();
+      throw new AlphabetMissmatchException();
     }
 
 
