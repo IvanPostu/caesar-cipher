@@ -115,11 +115,17 @@ public class InputPanel extends JPanel {
       return;
     }
 
-    char[] decryptedCharacters = caesarCipher
-      .decrypt(encryptedText.toCharArray(), keyState.getK(), alphabetState.getAlphabet());
-  
-    String decryptedtext = new String(decryptedCharacters);
-    outputPanel.setOutputText(decryptedtext);
+    try{
+      char[] decryptedCharacters = caesarCipher
+        .decrypt(encryptedText.toCharArray(), keyState.getK(), alphabetState.getAlphabet());
+    
+      String decryptedtext = new String(decryptedCharacters);
+      outputPanel.setOutputText(decryptedtext);
+    }catch(AlphabetMissmatchException ex){
+      showAlert("Input text contain unknown characters.");
+      logger.warn(ex);
+    }
+
   }
 
   @PostConstruct
@@ -157,9 +163,7 @@ public class InputPanel extends JPanel {
     add(encryptButton);
 
     JButton changeAlphabet = new JButton("Change Alphabet");
-    changeAlphabet.addActionListener((e) -> {
-      changeAlphabet();
-    });
+    changeAlphabet.addActionListener((e) -> changeAlphabet());
     add(changeAlphabet);
 
     setFocusable(true);

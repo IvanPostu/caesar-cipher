@@ -29,8 +29,6 @@ public class MainWindow extends JFrame {
   @Autowired
   private OutputPanel outputPanel;
 
-
-
   @PostConstruct
   public void onInit() {
     setTitle(windowName);

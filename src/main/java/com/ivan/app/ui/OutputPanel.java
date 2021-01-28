@@ -48,7 +48,7 @@ public class OutputPanel extends JPanel {
   }
 
   private void changeKey(ActionEvent e){
-    String result = (String) JOptionPane.showInputDialog(mainWindow, "Set alphabet", "Dialog box",
+    String result = (String) JOptionPane.showInputDialog(mainWindow, "Set key", "Key",
         JOptionPane.PLAIN_MESSAGE, null, null, String.format("%d", keyState.getK()));
     if (result != null && result.length() > 0) {
       

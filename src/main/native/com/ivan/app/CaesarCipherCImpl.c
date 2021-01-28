@@ -138,7 +138,6 @@ JNIEXPORT jcharArray JNICALL Java_com_ivan_app_cipher_CaesarCipherCImpl_encryptN
 
   free(normalizedPlainStr->str);
   free(normalizedPlainStr);
-
   free(encryptedStr->str);
   free(encryptedStr);
 
@@ -167,7 +166,6 @@ JNIEXPORT jcharArray JNICALL Java_com_ivan_app_cipher_CaesarCipherCImpl_decryptN
   (*env)->SetCharArrayRegion(env, result, 0, decryptedStr->size / 2, (jchar *)decryptedStr->str);
 
   free(encryptedStrStruct);
-
   free(decryptedStr->str);
   free(decryptedStr);
 

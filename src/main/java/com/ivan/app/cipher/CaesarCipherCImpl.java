@@ -53,6 +53,9 @@ public class CaesarCipherCImpl implements CaesarCipher {
       throw new NullPointerException();
     }
 
+    if(charArrayContainsAlphMissmatch(encryptedText, alph)){
+      throw new AlphabetMissmatchException();
+    }
 
     return decryptNative(encryptedText, key, alph);
   }
