@@ -5,7 +5,13 @@
   "version": "0.2.0",
   "configurations": [
     {
-      
+      "type": "java",
+      "name": "Launch aa",
+      "request": "launch",
+      "mainClass": "com.ivan.app.aa",
+      "projectName": "caesar-cipher"
+    },
+    {
       "type": "java",
       "name": "Launch Main File",
       "request": "launch",
@@ -14,6 +20,6 @@
         "${workspaceFolder}/bin/main/",
         "${workspaceFolder}/build/libs/compile_dependencies/*"
       ]
-    },
+    }
   ]
 }

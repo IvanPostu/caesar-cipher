@@ -6,6 +6,7 @@
 
 ![](./forReadme/q1.png)
 ![](./forReadme/q2.png)
+![](./forReadme/q2_2.png)
 ![](./forReadme/q3.png)
 ![](./forReadme/q4.png)
 ![](./forReadme/q5.png)
