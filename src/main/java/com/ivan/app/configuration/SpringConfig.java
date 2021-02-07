@@ -17,35 +17,35 @@ import org.springframework.context.annotation.Scope;
 @PropertySource("classpath:data.properties")
 public class SpringConfig {
 
-  @Bean
-  public MainWindow getMainWindow() {
-    return new MainWindow();
-  }
+    @Bean
+    public MainWindow getMainWindow() {
+        return new MainWindow();
+    }
 
-  @Bean
-  public InputPanel getInputPanel() {
-    return new InputPanel();
-  }
+    @Bean
+    public InputPanel getInputPanel() {
+        return new InputPanel();
+    }
 
-  @Bean
-  public OutputPanel getOutputPanel() {
-    return new OutputPanel();
-  }
+    @Bean
+    public OutputPanel getOutputPanel() {
+        return new OutputPanel();
+    }
 
-  @Scope("singleton")
-  @Bean
-  public AlphabetState getAlphabetState(){
-    return new AlphabetState();
-  }
+    @Scope("singleton")
+    @Bean
+    public AlphabetState getAlphabetState() {
+        return new AlphabetState();
+    }
 
-  @Bean
-  public KeyState getKeyState() {
-    return new KeyState();
-  }
+    @Bean
+    public KeyState getKeyState() {
+        return new KeyState(0, getAlphabetState().getAlphabetLength());
+    }
 
-  @Bean
-  public CaesarCipher getCaesarCipher(){
-    return new CaesarCipherCImpl();
-  }
+    @Bean
+    public CaesarCipher getCaesarCipher() {
+        return new CaesarCipherCImpl();
+    }
 
 }
